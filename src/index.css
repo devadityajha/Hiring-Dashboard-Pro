@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-bg text-text m-0 p-0;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-sm border border-border rounded-xl shadow-lg;
+  }
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+           text-muted hover:text-text hover:bg-white/5 transition-all duration-150 cursor-pointer;
+  }
+  .nav-item-active {
+    @apply text-accent bg-accent/10 hover:bg-accent/10 hover:text-accent;
+  }
+  .page-container {
+    @apply flex-1 overflow-y-auto p-6;
+  }
+  .page-header {
+    @apply mb-6;
+  }
+  .page-title {
+    @apply text-2xl font-semibold text-text;
+  }
+  .page-subtitle {
+    @apply text-sm text-muted mt-1;
+  }
+  .result-row {
+    @apply w-full flex items-center gap-3 px-4 py-2.5
+           hover:bg-white/5 transition-colors text-left;
+  }
+}
