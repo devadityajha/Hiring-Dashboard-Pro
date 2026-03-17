@@ -5,6 +5,7 @@ import { useCounterStore } from "../../store/useCounterStore";
 import { useSettingsStore } from "../../store/useSettingsStore";
 
 export default function DailyGoalWidget() {
+  
   const { increment, getToday, setGoal } = useCounterStore();
   const { dailyGoal } = useSettingsStore();
   const today = getToday();
