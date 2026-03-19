@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Base ──────────────────────────────────────────────── */
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -17,12 +18,31 @@
   }
 
   body {
-    @apply bg-bg text-text;
     font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
     min-height: 100vh;
+    color: #e2e8f0; /* Soft, premium white */
+
+    /* Premium Obsidian Background with subtle Aurora glows */
+    background-color: #050505;
+    background-image:
+      radial-gradient(
+        circle at 15% 50%,
+        rgba(20, 184, 166, 0.08),
+        transparent 25%
+      ),
+      radial-gradient(
+        circle at 85% 30%,
+        rgba(99, 102, 241, 0.08),
+        transparent 25%
+      ),
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(255, 255, 255, 0.03),
+        transparent 20%
+      );
+    background-attachment: fixed;
   }
 
-  /* Custom scrollbar — thin and premium */
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -31,17 +51,16 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Selection highlight */
   ::selection {
-    background: rgba(167, 139, 250, 0.25);
-    color: inherit;
+    background: rgba(45, 212, 191, 0.3); /* Teal selection */
+    color: #ffffff;
   }
 
   input[type="datetime-local"] {
@@ -49,147 +68,263 @@
   }
 }
 
-/* ── Component Classes ─────────────────────────────────── */
 @layer components {
-  /* ── Glass card — the core surface ── */
+  /* ── Sleek Dark Glass Cards — No more blinding white ── */
   .glass-card {
-    @apply bg-card border border-border rounded-2xl;
-    background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.035) 0%, transparent 100%),
-      var(--tw-bg-opacity, theme("colors.card"));
+    @apply rounded-2xl;
+    background: rgba(24, 24, 27, 0.65); /* Translucent Zinc */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    /* Subtle 3D inner top border to simulate light hitting the edge */
+    border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow:
-      0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
-      0 4px 24px rgba(0, 0, 0, 0.35);
-    transition:
-      border-color 0.15s ease,
-      box-shadow 0.15s ease;
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      0 8px 32px -4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #f8fafc;
   }
 
   .glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
     box-shadow:
-      0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
-      0 8px 32px rgba(0, 0, 0, 0.45);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      0 12px 48px -4px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
   }
 
-  /* ── Premium sidebar ── */
+  .stat-card {
+    @apply glass-card p-5 cursor-default flex flex-col justify-between;
+  }
+
+  /* ── Sidebar — Ultra-dark Frosted Glass ── */
   .sidebar-surface {
-    background: linear-gradient(
-      180deg,
-      theme("colors.surface") 0%,
-      color-mix(
-          in srgb,
-          theme("colors.surface") 90%,
-          theme("colors.accent") 10%
-        )
-        100%
-    );
-    border-right: 1px solid theme("colors.border");
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+    background: rgba(9, 9, 11, 0.85); /* Deepest zinc */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
   }
 
-  /* ── Sidebar nav item ── */
+  /* ── Nav items ── */
   .nav-item {
     @apply flex items-center gap-3 px-3 py-2.5 rounded-xl
-           text-muted text-xs font-medium
-           transition-all duration-150 cursor-pointer;
+           text-sm font-medium
+           transition-all duration-200 cursor-pointer select-none;
+    color: #94a3b8; /* Slate 400 */
   }
 
   .nav-item:hover {
-    @apply text-text;
-    background: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .nav-item.active {
-    @apply text-accent;
-    background: color-mix(in srgb, theme("colors.accent") 12%, transparent);
-    box-shadow: inset 2px 0 0 theme("colors.accent");
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Teal glowing indicator */
+    box-shadow: inset 3px 0 0 #2dd4bf;
   }
 
-  /* ── Page titles ── */
+  /* ── Typography ── */
   .page-title {
-    @apply text-lg font-bold text-text tracking-tight;
+    @apply text-2xl font-bold tracking-tight;
+    color: #ffffff;
   }
 
   .page-subtitle {
-    @apply text-xs text-muted mt-0.5;
+    @apply text-sm mt-1;
+    color: #94a3b8;
   }
 
-  /* ── Accent button ── */
+  /* ── Buttons ── */
   .btn-accent {
     @apply flex items-center gap-2 px-4 py-2.5
-           text-xs font-semibold rounded-xl
-           transition-all duration-150 active:scale-[0.97];
-    background: color-mix(in srgb, theme("colors.accent") 18%, transparent);
-    color: theme("colors.accent");
-    border: 1px solid
-      color-mix(in srgb, theme("colors.accent") 30%, transparent);
+           text-sm font-medium rounded-xl
+           transition-all duration-200 active:scale-[0.97] select-none;
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .btn-accent:hover {
-    background: color-mix(in srgb, theme("colors.accent") 28%, transparent);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
-  /* ── Input fields ── */
-  .field {
-    @apply w-full bg-bg border border-border rounded-xl
-           px-3 py-2.5 text-xs text-text placeholder-muted
-           outline-none transition-colors duration-150;
-  }
-
-  .field:focus {
-    border-color: color-mix(in srgb, theme("colors.accent") 55%, transparent);
-    box-shadow: 0 0 0 3px
-      color-mix(in srgb, theme("colors.accent") 8%, transparent);
-  }
-
-  /* ── Result row (GlobalSearch) ── */
-  .result-row {
-    @apply w-full flex items-center gap-3 px-4 py-2.5
-           hover:bg-white/5 transition-colors text-left;
-  }
-
-  /* ── Premium gradient text ── */
-  .gradient-text {
+  /* Premium Gradient Button */
+  .btn-solid {
+    @apply flex items-center gap-2 px-5 py-2.5
+           text-sm font-semibold rounded-xl text-white
+           transition-all duration-300 active:scale-[0.97];
     background: linear-gradient(
       135deg,
-      theme("colors.accent"),
-      color-mix(in srgb, theme("colors.accent") 60%, theme("colors.success"))
-    );
+      #2dd4bf 0%,
+      #6366f1 100%
+    ); /* Teal to Indigo */
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-solid:hover {
+    background: linear-gradient(135deg, #34d399 0%, #818cf8 100%);
+    box-shadow: 0 6px 28px rgba(99, 102, 241, 0.5);
+    transform: translateY(-1px);
+  }
+
+  /* ── Input Fields ── */
+  .field,
+  .capture-bar {
+    @apply w-full rounded-xl px-4 py-3 text-sm
+           outline-none transition-all duration-200;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .field::placeholder,
+  .capture-bar::placeholder {
+    color: #64748b;
+  }
+
+  .field:hover,
+  .capture-bar:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .field:focus,
+  .capture-bar:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: #6366f1;
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  /* ── Search bar ── */
+  .search-bar {
+    @apply flex items-center gap-2 px-3 py-2 rounded-xl
+           text-sm transition-all duration-200 cursor-pointer;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .search-bar:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  /* ── Result row ── */
+  .result-row {
+    @apply w-full flex items-center gap-3 px-4 py-2.5
+           transition-colors text-left text-xs;
+    color: #94a3b8;
+  }
+
+  .result-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+  }
+
+  /* ── Badges — Glowing neon style ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5
+           text-xs font-semibold rounded-md uppercase tracking-wider;
+  }
+
+  .badge-accent {
+    @apply badge;
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+  }
+
+  .badge-success {
+    @apply badge;
+    background: rgba(45, 212, 191, 0.15);
+    color: #2dd4bf;
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    box-shadow: 0 0 10px rgba(45, 212, 191, 0.1);
+  }
+
+  .badge-danger {
+    @apply badge;
+    background: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+  }
+
+  .badge-gold {
+    @apply badge;
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply w-full h-px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Gradient text ── */
+  .gradient-text {
+    background: linear-gradient(to right, #2dd4bf, #818cf8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* ── Ambient glow behind accent elements ── */
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Glow ── */
   .glow-accent {
-    box-shadow: 0 0 20px
-      color-mix(in srgb, theme("colors.accent") 25%, transparent);
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.35);
+  }
+
+  /* ── Icon boxes ── */
+  .icon-box {
+    @apply flex items-center justify-center w-10 h-10 rounded-xl;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+  }
+
+  .icon-box-accent {
+    @apply flex items-center justify-center w-10 h-10 rounded-xl;
+    background: linear-gradient(
+      135deg,
+      rgba(45, 212, 191, 0.15),
+      rgba(99, 102, 241, 0.15)
+    );
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #2dd4bf;
   }
 }
 
-/* ── Utilities ─────────────────────────────────────────── */
 @layer utilities {
-  /* Subtle animated gradient border on focused cards */
   .border-glow {
-    border-color: color-mix(
-      in srgb,
-      theme("colors.accent") 40%,
-      transparent
-    ) !important;
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, theme("colors.accent") 15%, transparent),
-      0 4px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.2) !important;
   }
 
-  /* Page fade-in on mount */
   .page-enter {
-    animation: pageEnter 0.2s ease forwards;
+    animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   @keyframes pageEnter {
     from {
       opacity: 0;
-      transform: translateY(6px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -197,7 +332,21 @@
     }
   }
 
-  /* Pulse dot for live indicators */
+  .slide-up {
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
   .dot-pulse {
     animation: dotPulse 2s ease-in-out infinite;
   }
@@ -211,6 +360,40 @@
     50% {
       opacity: 0.4;
       transform: scale(0.85);
+    }
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
+
+  .float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
     }
   }
 }
